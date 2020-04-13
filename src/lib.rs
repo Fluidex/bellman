@@ -42,7 +42,7 @@ pub mod marlin;
 pub mod kate_commitment;
 
 mod group;
-mod source;
+pub mod source;
 mod multiexp;
 mod prefetch;
 
