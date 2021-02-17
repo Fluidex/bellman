@@ -355,7 +355,7 @@ impl<E: Engine, P: PlonkConstraintSystemParams<E>> SetupPolynomialsPrecomputatio
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct Proof<E: Engine, P: PlonkConstraintSystemParams<E>> {
     pub num_inputs: usize,
     pub n: usize,
@@ -375,6 +375,27 @@ pub struct Proof<E: Engine, P: PlonkConstraintSystemParams<E>> {
     pub opening_at_z_omega_proof: E::G1Affine,
 
     pub(crate) _marker: std::marker::PhantomData<P>,
+}
+
+impl<E: Engine, P: PlonkConstraintSystemParams<E>> std::fmt::Debug for Proof<E, P> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Proof")
+            .field("num_inputs", &self.num_inputs)
+            .field("n", &self.n)
+            .field("input_values", &self.input_values)
+            .field("wire_commitments", &self.wire_commitments)
+            .field("grand_product_commitment", &self.grand_product_commitment)
+            .field("quotient_poly_commitments", &self.quotient_poly_commitments)
+            .field("wire_values_at_z", &self.wire_values_at_z)
+            .field("wire_values_at_z_omega", &self.wire_values_at_z_omega)
+            .field("grand_product_at_z_omega", &self.grand_product_at_z_omega)
+            .field("quotient_polynomial_at_z", &self.quotient_polynomial_at_z)
+            .field("linearization_polynomial_at_z", &self.linearization_polynomial_at_z)
+            .field("permutation_polynomials_at_z", &self.permutation_polynomials_at_z)
+            .field("opening_at_z_proof", &self.opening_at_z_proof)
+            .field("opening_at_z_omega_proof", &self.opening_at_z_omega_proof)
+            .finish()
+    }
 }
 
 impl<E: Engine, P: PlonkConstraintSystemParams<E>> Proof<E, P> {
@@ -545,7 +566,7 @@ impl<E: Engine, P: PlonkConstraintSystemParams<E>> Proof<E, P> {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct VerificationKey<E: Engine, P: PlonkConstraintSystemParams<E>> {
     pub n: usize,
     pub num_inputs: usize,
@@ -557,6 +578,20 @@ pub struct VerificationKey<E: Engine, P: PlonkConstraintSystemParams<E>> {
     pub g2_elements: [E::G2Affine; 2],
 
     pub(crate) _marker: std::marker::PhantomData<P>,
+}
+
+impl<E: Engine, P: PlonkConstraintSystemParams<E>> std::fmt::Debug for VerificationKey<E, P> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("VerificationKey")
+            .field("n", &self.n)
+            .field("num_inputs", &self.num_inputs)
+            .field("selector_commitments", &self.selector_commitments)
+            .field("next_step_selector_commitments", &self.next_step_selector_commitments)
+            .field("permutation_commitments", &self.permutation_commitments)
+            .field("non_residues", &self.non_residues)
+            .field("g2_elements", &self.g2_elements)
+            .finish()
+    }
 }
 
 impl<E: Engine, P: PlonkConstraintSystemParams<E>> VerificationKey<E, P> {
